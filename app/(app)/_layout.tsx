@@ -1,26 +1,24 @@
-import {Navigator, Slot, Tabs} from 'expo-router';
+import Header from "@/components/app/Header";
+import { Navigator, Slot, Tabs } from "expo-router";
 import React from "react";
-import {Image, Text, View} from "react-native";
+import {Dimensions, Image, ScrollView, Text, View} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {StatusBar} from "expo-status-bar";
 
-export default function AppLayout()
-{
-
-
-    return (
-        <React.Fragment>
-            <View className="" style={{flex: 1,  justifyContent: "center",
-                alignItems: "center",}}>
-                <View className="flex w-full h-full flex-row" style={{flex: 1,  justifyContent: "center",
-                    alignItems: "center",}}>
-                    <Image style={{flex: 1}}
-                        source={{ uri: "https://ui-avatars.com/api/?name=John+Doe"}}
-                    />
-                    <Text style={{flex: 1}}>asds</Text>
-                </View>
-            </View>
-            <Slot />
-
-        </React.Fragment>
-
-    )
+export default function AppLayout() {
+  return (
+    <React.Fragment>
+        <SafeAreaView
+            className="w-full flex justify-center h-full px-4 my-6 font-sans antialiased text-sm"
+            style={{
+            minHeight: Dimensions.get("window").height - 100,
+        }}>
+            <ScrollView>
+                <Header />
+                <Slot />
+            </ScrollView>
+        </SafeAreaView>
+        <StatusBar backgroundColor="#5faab1" style="light" />
+    </React.Fragment>
+  );
 }

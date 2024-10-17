@@ -1,6 +1,7 @@
 import {Text, View} from "react-native";
 import React from "react";
 import {router} from "expo-router";
+import BillingsScreen from "@/app/(app)/billings";
 
 export default function DashboardScreen() {
     return (
