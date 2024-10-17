@@ -9,7 +9,7 @@ type Props = {
   placeholder?: string;
   handleChangeText: (e?: any) => any;
   [k: string]: any;
-}
+};
 
 const FormField = (props: Props) => {
   const [showPassword, setShowPassword] = useState(false);

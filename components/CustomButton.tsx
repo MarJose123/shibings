@@ -6,7 +6,7 @@ type Props = {
   containerStyles: string;
   textStyles?: string;
   isLoading: boolean;
-}
+};
 
 const CustomButton = (props: Props) => {
   return (

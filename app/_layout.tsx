@@ -1,7 +1,6 @@
-import { Slot, SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider } from "@ui-kitten/components";
-import { SafeAreaView, View } from "react-native";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 
