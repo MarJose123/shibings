@@ -8,23 +8,23 @@
     "scheme": "shibings",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/launcher/playstore-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#DAC59D"
     },
     "ios": {
       "supportsTablet": false
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/launcher/ic_launcher-web.png",
+        "backgroundColor": "#DAC59D"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png",
+      "favicon": "./assets/launcher/ic_launcher-web.png\"",
       "build": {
         "babel": {
           "include": [ "@ui-kitten/components" ]
