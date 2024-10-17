@@ -1,4 +1,4 @@
-import { SplashScreen, Stack } from "expo-router";
+import {Slot, SplashScreen, Stack} from "expo-router";
 import * as eva from "@eva-design/eva";
 import { ApplicationProvider } from "@ui-kitten/components";
 import { useFonts } from "expo-font";
@@ -38,14 +38,7 @@ export default function RootLayout() {
 
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
-      <Stack
-        screenOptions={{
-          headerTitleAlign: "center",
-        }}
-      >
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-      </Stack>
+     <Slot />
     </ApplicationProvider>
   );
 }

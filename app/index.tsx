@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { router } from "expo-router";
+import {Link, router} from "expo-router";
 import React from "react";
 
 export default function Index() {
@@ -13,7 +13,7 @@ export default function Index() {
         }}
       >
         <Text>Edit app/index.tsx to edit this screen.</Text>
-        <Text onPress={() => router.push("/sign-in")}>Go to login</Text>
+        <Link  href="/dashboard">Go to Dashboard</Link>
       </View>
     </React.Fragment>
   );
