@@ -7,7 +7,7 @@ type Props = {
   otherStyles?: string;
   value: string;
   placeholder?: string;
-  handleChangeText: () => void;
+  handleChangeText: (e?: any) => any;
   [k: string]: any;
 }
 
