@@ -21,64 +21,60 @@ export default function AppLayout() {
   const pathname = usePathname();
 
   return (
-    <React.Fragment>
       <SafeAreaView
-        className="w-full flex justify-center h-full px-4 my-6 font-pbold antialiased text-sm p-4"
+        className="w-full flex justify-center h-full my-6 font-pbold antialiased text-sm px-2 py-10"
         style={{
           minHeight: Dimensions.get("window").height - 100,
         }}
       >
-        <ScrollView>
+        <SafeAreaView className="w-full flex">
           <Header />
-          <React.Fragment>
-            <ScrollView horizontal alwaysBounceHorizontal={true} showsHorizontalScrollIndicator={false}>
-              <View className="flex flex-row gap-2">
-                <TouchableOpacity
+          <View className="flex flex-row gap-2">
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <TouchableOpacity
                   className={"border-1 rounded-full bg-gray-900 ring-slate-600"}
                   onPress={() => {
                     router.push(Pages.Dashboard);
                   }}
-                >
-                  <Text
+              >
+                <Text
                     className={`${pathname == Pages.Dashboard ? "text-white" : "text-gray-500"} font-pregular p-2 px-6`}
-                  >
-                    My Accounts
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                >
+                  My Accounts
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
                   className={"border-1 rounded-full bg-gray-900 ring-slate-600"}
                   onPress={() => {
                     router.push(Pages.Transactions);
                   }}
-                >
-                  <Text
+              >
+                <Text
                     className={`${pathname == Pages.Transactions ? "text-white" : "text-gray-500"} font-pregular p-2 px-6`}
-                  >
-                    Transactions
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                >
+                  Transactions
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
                   className="border-1 rounded-full bg-gray-900 ring-slate-600"
                   onPress={() => {
                     router.push(Pages.SOA);
                   }}
-                >
-                  <Text
+              >
+                <Text
                     className={`${pathname == Pages.SOA ? "text-white" : "text-gray-500"} font-pregular p-2 px-6`}
-                  >
-                    Statement of Accounts
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                >
+                  Statement of Accounts
+                </Text>
+              </TouchableOpacity>
             </ScrollView>
-            {/* Display Area */}
-            <SafeAreaView className="flex mt-3">
-              <Slot />
-            </SafeAreaView>
-          </React.Fragment>
-        </ScrollView>
+          </View>
+          {/* Display Area */}
+          <SafeAreaView className="flex mt-3">
+            <Slot />
+          </SafeAreaView>
+        </SafeAreaView>
+        <StatusBar style="light" />
       </SafeAreaView>
-      <StatusBar style="light" />
-    </React.Fragment>
   );
 }
