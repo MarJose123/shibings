@@ -72,7 +72,7 @@ export default function AppLayout() {
               </View>
             </ScrollView>
             {/* Display Area */}
-            <SafeAreaView className="flex mt-10">
+            <SafeAreaView className="flex mt-3">
               <Slot />
             </SafeAreaView>
           </React.Fragment>
