@@ -2,15 +2,16 @@ import {Image, Text, View} from "react-native";
 import React from "react";
 import Icons from "../Icons";
 import Svg, {Path} from "react-native-svg";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 export default function AppHeader()
 {
 
 
  return (
-   <View className="flex my-5 px-4 space-y-6">
-     <View className="flex justify-between items-start flex-row mb-6">
-       <View className="flex flex-row gap-3">
+   <SafeAreaView className="flex my-5 px-4 space-y-6">
+     <SafeAreaView className="flex justify-between items-start flex-row mb-6">
+       <SafeAreaView className="flex flex-row gap-3">
          <Image
            style={{ width: 40, height: 40 }}
            source={{ uri: "https://avatar.iran.liara.run/public" }}
@@ -22,8 +23,8 @@ export default function AppHeader()
              John Doe
            </Text>
          </View>
-       </View>
-       <View className="flex mt-1.5 flex-row gap-2">
+       </SafeAreaView>
+       <SafeAreaView className="flex mt-1.5 flex-row gap-2">
          <View>
            <Svg
              fill="none"
@@ -55,8 +56,8 @@ export default function AppHeader()
              />
            </Svg>
          </View>
-       </View>
-     </View>
-   </View>
+       </SafeAreaView>
+     </SafeAreaView>
+   </SafeAreaView>
  );
 }
