@@ -3,7 +3,6 @@ import * as eva from "@eva-design/eva";
 import {ApplicationProvider} from "@ui-kitten/components";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
-import "../global.css"
 import {LinearGradient} from "expo-linear-gradient";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.

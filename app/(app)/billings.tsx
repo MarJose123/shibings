@@ -1,10 +1,9 @@
 import {Text, View} from "react-native";
 import React from "react";
-import {router} from "expo-router";
 
 export default function BillingsScreen() {
     return (
-        <React.Fragment>
+        <>
             <View
                 style={{
                     flex: 1,
@@ -14,6 +13,6 @@ export default function BillingsScreen() {
             >
                 <Text>This is the Dashboard</Text>
             </View>
-        </React.Fragment>
+        </>
     )
 }
