@@ -9,7 +9,7 @@ export default function AppLayout() {
   return (
     <React.Fragment>
         <SafeAreaView
-            className="w-full flex justify-center h-full px-4 my-6 font-sans antialiased text-sm"
+            className="w-full flex justify-center h-full px-4 my-6 font-pbold antialiased text-sm"
             style={{
             minHeight: Dimensions.get("window").height - 100,
         }}>

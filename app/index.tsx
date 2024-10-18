@@ -12,8 +12,8 @@ export default function Index() {
           alignItems: "center",
         }}
       >
-        <Text>Edit app/index.tsx to edit this screen.</Text>
-        <Link  href="/dashboard">Go to Dashboard</Link>
+        <Text className='text-gray-100'>Edit app/index.tsx to edit this screen.</Text>
+        <Link  href="/dashboard" className='text-gray-100'>Go to Dashboard</Link>
       </View>
     </React.Fragment>
   );
