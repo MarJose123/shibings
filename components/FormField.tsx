@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
-import icons from "@/constants/Icons";
+import icons from "@/components/Icons";
 
 type Props = {
   title: string;
@@ -32,11 +32,9 @@ const FormField = (props: Props) => {
 
         {props?.title === "Password" && (
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-            <Image
-              source={!showPassword ? icons.eye : icons.eyeHide}
-              className="w-6 h-6"
-              resizeMode="contain"
-            />
+              <View>
+                  {!showPassword ? <icons.eye/> : <icons.eyeSlash/>}
+              </View>
           </TouchableOpacity>
         )}
       </View>
