@@ -9,7 +9,7 @@ export default function AppLayout() {
   return (
     <React.Fragment>
         <SafeAreaView
-            className="w-full flex justify-center h-full px-4 my-6 font-pbold antialiased text-sm"
+            className="w-full flex justify-center h-full px-4 my-6 font-pbold antialiased text-sm p-4"
             style={{
             minHeight: Dimensions.get("window").height - 100,
         }}>
@@ -18,7 +18,7 @@ export default function AppLayout() {
                 <Slot />
             </ScrollView>
         </SafeAreaView>
-        <StatusBar backgroundColor="#5faab1" style="light" />
+        <StatusBar style="light" />
     </React.Fragment>
   );
 }
