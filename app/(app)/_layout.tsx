@@ -31,11 +31,7 @@ export default function AppLayout() {
         <ScrollView>
           <Header />
           <React.Fragment>
-            <ScrollView
-              horizontal
-              alwaysBounceHorizontal={true}
-              showsHorizontalScrollIndicator={false}
-            >
+            <ScrollView horizontal alwaysBounceHorizontal={true} showsHorizontalScrollIndicator={false}>
               <View className="flex flex-row gap-2">
                 <TouchableOpacity
                   className={"border-1 rounded-full bg-gray-900 ring-slate-600"}
@@ -76,9 +72,9 @@ export default function AppLayout() {
               </View>
             </ScrollView>
             {/* Display Area */}
-            <View className="flex mt-10">
+            <SafeAreaView className="flex mt-10">
               <Slot />
-            </View>
+            </SafeAreaView>
           </React.Fragment>
         </ScrollView>
       </SafeAreaView>
