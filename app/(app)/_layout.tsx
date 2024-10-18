@@ -22,12 +22,12 @@ export default function AppLayout() {
 
   return (
       <SafeAreaView
-        className="font-pbold px-2"
+        className="font-pbold max-h-screen"
         style={{
-          minHeight: Dimensions.get("window").height - 100,
+          minHeight: Dimensions.get("window").height,
         }}
       >
-        <SafeAreaView>
+        <View>
           <Header />
           <View className="flex flex-row gap-2">
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className="gap-2">
@@ -70,10 +70,10 @@ export default function AppLayout() {
             </ScrollView>
           </View>
           {/* Display Area */}
-          <SafeAreaView className="flex mt-3">
+          <View className="mt-10 px-3">
             <Slot />
-          </SafeAreaView>
-        </SafeAreaView>
+          </View>
+        </View>
         <StatusBar style="light" />
       </SafeAreaView>
   );

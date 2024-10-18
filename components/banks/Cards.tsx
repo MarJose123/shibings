@@ -11,7 +11,7 @@ type BankCardProps = {
 
 export default function BankCards(props: BankCardProps) {
   return (
-    <View className="border rounded-lg w-[300] backdrop-blur-sm bg-[#0d1216] drop-shadow-md">
+    <View className="border rounded-lg backdrop-blur-sm bg-[#0d1216] drop-shadow-md" style={{ marginVertical: 8}}>
       <View className="p-3">
         <View className="flex flex-col gap-2">
           <View className="flex flex-row flex-wrap justify-between">
@@ -23,7 +23,6 @@ export default function BankCards(props: BankCardProps) {
           <Text className="text-white text-xs font-pthin">
             as of {props.monthYear}
           </Text>
-
           <View>
             <Text className="text-white font-pbold text-2xl">
               {currency(props.balance, {
