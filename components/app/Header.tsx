@@ -8,7 +8,7 @@ export default function AppHeader()
 
 
  return (
-   <View className="flex  my-6 px-4 space-y-6">
+   <View className="flex my-5 px-4 space-y-6">
      <View className="flex justify-between items-start flex-row mb-6">
        <View className="flex flex-row gap-3">
          <Image
@@ -57,7 +57,6 @@ export default function AppHeader()
          </View>
        </View>
      </View>
-     <Text>asd</Text>
    </View>
  );
 }
