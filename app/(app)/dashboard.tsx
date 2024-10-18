@@ -6,7 +6,7 @@ import BankCards from "@/components/banks/Cards";
 export default function DashboardScreen() {
   return (
     <React.Fragment>
-      <ScrollView className="flex">
+      <ScrollView className="flex pb-10">
           <Title title={'My Banks'} />
           <ScrollView horizontal={false} showsVerticalScrollIndicator={false} className="flex mx-2 mt-10 space-x-10 ">
               <BankCards balance={23581} bankName={'Gcash'} monthYear={'Oct. 2024'} />
