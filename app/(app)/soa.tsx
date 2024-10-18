@@ -1,12 +1,11 @@
 import { Text, View } from "react-native";
 import React from "react";
-import Title from "@/components/Title";
 
-export default function DashboardScreen() {
+export default function StatementOfAccountScreen() {
   return (
     <React.Fragment>
       <View>
-          <Title title={'My Banks'} />
+        <Text className="text-white">My SOA Screen</Text>
       </View>
     </React.Fragment>
   );
