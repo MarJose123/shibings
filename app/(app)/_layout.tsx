@@ -22,15 +22,15 @@ export default function AppLayout() {
 
   return (
       <SafeAreaView
-        className="w-full flex justify-center h-full my-6 font-pbold antialiased text-sm px-2 py-10"
+        className="font-pbold px-2"
         style={{
           minHeight: Dimensions.get("window").height - 100,
         }}
       >
-        <SafeAreaView className="w-full flex">
+        <SafeAreaView>
           <Header />
           <View className="flex flex-row gap-2">
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} className="gap-2">
               <TouchableOpacity
                   className={"border-1 rounded-full bg-gray-900 ring-slate-600"}
                   onPress={() => {
