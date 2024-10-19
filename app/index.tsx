@@ -1,20 +1,20 @@
 import { Text, View } from "react-native";
-import {Link, router} from "expo-router";
-import React from "react";
+import {Link, useRootNavigationState, useRouter} from "expo-router";
+import React, {useEffect} from "react";
+import {useAppStore} from "@/state/AppStore";
+import Intro from "@/app/intro";
+import DashboardScreen from "@/app/(app)/dashboard";
 
 export default function Index() {
-  return (
-    <React.Fragment>
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text className='text-gray-100'>Edit app/index.tsx to edit this screen.</Text>
-        <Link  href="/dashboard" className='text-gray-100'>Go to Dashboard</Link>
-      </View>
-    </React.Fragment>
-  );
+    const router = useRouter();
+    const navigationState = useRootNavigationState();
+    const isFirstLaunch = useAppStore((state) => state.isFirstLaunch())
+
+    useEffect(() => {
+        if (!navigationState?.key) return;
+        if (isFirstLaunch) {
+           return  router.push('/intro')
+        }
+       return  router.push('/dashboard')
+    }, [navigationState, isFirstLaunch]);
 }
