@@ -36,19 +36,6 @@ export default function RootLayout() {
   }
 
   return (
-        <LinearGradient
-            colors={["#000000", "#3d4b12"]}
-            start={{ x: 0.5, y: 0.5 }} // Start closer to the center
-            end={{ x: 1.2, y: -0.2 }} // Push further beyond the top-right corner
-            // Adjust color stops to create more of a circular shape
-            locations={[0.3, 0.6]}
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-        >
-          <Slot />
-        </LinearGradient>
+      <Slot />
   );
 }
