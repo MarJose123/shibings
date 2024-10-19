@@ -27,12 +27,24 @@
       "favicon": "./assets/launcher/ic_launcher-web.png\"",
       "build": {
         "babel": {
-          "include": [ "@ui-kitten/components" ]
+          "include": [
+            "@ui-kitten/components"
+          ]
         }
       }
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "expo-build-properties",
+      {
+        "android": {
+          "compileSdkVersion": 34,
+          "targetSdkVersion": 34,
+          "buildToolsVersion": "34.0.0",
+          "minSdkVersion": 30,
+          "enableProguardInReleaseBuilds": true
+        }
+      }
     ],
     "experiments": {
       "typedRoutes": true
