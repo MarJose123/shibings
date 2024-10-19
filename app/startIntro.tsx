@@ -1,15 +1,28 @@
 import Onboarding from "react-native-onboarding-swiper";
-import React from "react";
+import React, {useEffect} from "react";
 import { View } from "react-native";
 import LottieView from "lottie-react-native";
+import {useRootNavigationState} from "expo-router";
 
-export default function Intro() {
+export default function IntroScreen() {
+    const navigationState = useRootNavigationState();
+    const [isPageOnLoad, setIsPageOnLoad] = React.useState(true);
+
+    useEffect(() => {
+        if (navigationState?.key){
+         setIsPageOnLoad(false);
+        }
+    },[navigationState])
+
+    if(isPageOnLoad){
+        return  <View className="bg-white" />
+    }
+
 
   const onDone = () => {};
 
-  // return <SliderIntro navContainerMaxSizePercent={0.3} limitToSlide={1} data={slides} onDone={onDone} onSkip={onDone} />;
   return (
-    <View className="container h-full justify-center">
+    <View className="container h-full justify-center bg-white">
       <Onboarding
         pages={[
           {
