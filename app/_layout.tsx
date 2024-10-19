@@ -4,6 +4,7 @@ import { ApplicationProvider } from "@ui-kitten/components";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import {NavigationContainer} from "@react-navigation/native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,21 +36,19 @@ export default function RootLayout() {
   }
 
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
-      <LinearGradient
-        colors={["#000000", "#3d4b12"]}
-        start={{ x: 0.5, y: 0.5 }} // Start closer to the center
-        end={{ x: 1.2, y: -0.2 }} // Push further beyond the top-right corner
-        // Adjust color stops to create more of a circular shape
-        locations={[0.3, 0.6]}
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Slot />
-      </LinearGradient>
-    </ApplicationProvider>
+        <LinearGradient
+            colors={["#000000", "#3d4b12"]}
+            start={{ x: 0.5, y: 0.5 }} // Start closer to the center
+            end={{ x: 1.2, y: -0.2 }} // Push further beyond the top-right corner
+            // Adjust color stops to create more of a circular shape
+            locations={[0.3, 0.6]}
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+        >
+          <Slot />
+        </LinearGradient>
   );
 }
