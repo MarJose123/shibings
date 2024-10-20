@@ -1,16 +1,25 @@
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Feather } from "@expo/vector-icons";
 import Icons from "@/components/Icons";
 import { Controller, useForm } from "react-hook-form";
 import * as EmailValidator from "email-validator";
+import LoadingScreen from "@/components/Loader";
 
 export default function signUp() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loadingText, setLoadingText] = useState("Loading...");
+
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
       name: "",
@@ -18,10 +27,14 @@ export default function signUp() {
       password: "",
     },
   });
-  const onSubmit = (data: any) => console.log(data);
+
+  const onSubmit = (data: any) => {
+    // return router.replace('/sign-in')
+  };
 
   return (
     <React.Fragment>
+      <LoadingScreen visible={isSubmitting} textContent={loadingText} />
       <View className="container h-full justify-center bg-white px-2">
         <View className="px-4 flex-col gap-4">
           <Text className="text-3xl font-pextrabold">Create Account</Text>
@@ -75,6 +88,9 @@ export default function signUp() {
             {errors.email && errors.email?.type == "required" && (
               <Text className="text-red-400">Email is required.</Text>
             )}
+            {errors.email && errors.email?.type == "validate" && (
+              <Text className="text-red-400">Invalid email address.</Text>
+            )}
           </View>
           <View>
             <Text className="text-base text-secondary-950 font-pmedium">
@@ -99,6 +115,7 @@ export default function signUp() {
                     onChangeText={onChange}
                     placeholderTextColor="#7B7B8B"
                     secureTextEntry={showPassword}
+                    maxLength={4}
                   />
                 )}
                 name="password"
@@ -117,10 +134,16 @@ export default function signUp() {
             {errors.password && errors.password?.type == "required" && (
               <Text className="text-red-400">PIN is required.</Text>
             )}
+            {errors.password && errors.password?.type == "maxLength" && (
+              <Text className="text-red-400">
+                PIN is too long. max length is 4 digit.
+              </Text>
+            )}
           </View>
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={handleSubmit(onSubmit)}
+            disabled={isSubmitting}
             className="items-center bg-primary rounded-xl min-h-[62px] justify-center"
           >
             <View className="flex-row justify-between items-center">
@@ -132,6 +155,12 @@ export default function signUp() {
                 fillClassName={"white"}
               />
             </View>
+            <ActivityIndicator
+              animating={isSubmitting}
+              color="#fff"
+              size="small"
+              className="ml-2"
+            />
           </TouchableOpacity>
         </View>
       </View>
