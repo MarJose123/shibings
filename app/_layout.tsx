@@ -1,10 +1,6 @@
 import { Slot, SplashScreen } from "expo-router";
-import * as eva from "@eva-design/eva";
-import { ApplicationProvider } from "@ui-kitten/components";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
-import { LinearGradient } from "expo-linear-gradient";
-import {NavigationContainer} from "@react-navigation/native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,7 +31,5 @@ export default function RootLayout() {
     return null;
   }
 
-  return (
-      <Slot />
-  );
+  return <Slot />;
 }
