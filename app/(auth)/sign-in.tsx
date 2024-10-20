@@ -52,7 +52,7 @@ export default function SignIn() {
               Don't have an account?
             </Text>
             <Link
-              href="/sign-up"
+              href="/app/(auth)/accountConfiguration"
               className="text-lg font-psemibold text-primary"
             >
               Signup

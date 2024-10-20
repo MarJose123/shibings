@@ -1,27 +1,12 @@
-import { Stack } from "expo-router";
+import {Slot, Stack} from "expo-router";
 import { SafeAreaView } from "react-native";
+import {StatusBar} from "expo-status-bar";
 
 const AuthLayout = () => {
   return (
     <>
-      <SafeAreaView style={{ flex: 1 }}>
-        <Stack>
-          <Stack.Screen
-            name="sign-in"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="sign-up"
-            options={{
-              headerShown: false,
-            }}
-          />
-        </Stack>
-      </SafeAreaView>
-
-      {/* <StatusBar backgroundColor="#161622" style="light" />*/}
+        <Slot />
+       <StatusBar style="dark" />
     </>
   );
 };
