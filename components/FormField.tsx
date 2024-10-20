@@ -5,9 +5,9 @@ import icons from "@/components/Icons";
 type Props = {
   title: string;
   otherStyles?: string;
-  value: string;
+  value?: string|undefined;
   placeholder?: string;
-  handleChangeText: (e?: any) => any;
+  handleChangeText?: (e?: any) => any;
   [k: string]: any;
 };
 
@@ -20,7 +20,7 @@ const FormField = (props: Props) => {
         {props?.title}
       </Text>
 
-      <View className="w-full h-16 px-4 bg-black-100 rounded-2xl border-2 border-black-200 focus:border-secondary flex flex-row items-center">
+      <View className="h-16 px-4 bg-black-100 rounded-2xl border-2 border-black-200 focus:border-secondary flex flex-row items-center">
         <TextInput
           className="flex-1 text-secondary-950 font-psemibold text-base"
           value={props?.value}
@@ -33,7 +33,7 @@ const FormField = (props: Props) => {
         {props?.title === "Password" && (
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <View>
-                  {!showPassword ? <icons.eye/> : <icons.eyeSlash/>}
+                  {!showPassword ? <icons.eye className="stroke-1 w-4 h-4 text-black"/> : <icons.eyeSlash/>}
               </View>
           </TouchableOpacity>
         )}
