@@ -2,7 +2,7 @@ import Onboarding from "react-native-onboarding-swiper";
 import React, {useEffect} from "react";
 import { View } from "react-native";
 import LottieView from "lottie-react-native";
-import {useRootNavigationState} from "expo-router";
+import {router, useRootNavigationState} from "expo-router";
 
 export default function IntroScreen() {
     const navigationState = useRootNavigationState();
@@ -19,11 +19,15 @@ export default function IntroScreen() {
     }
 
 
-  const onDone = () => {};
+  const onDone = () => {
+       return  router.push('/endIntro')
+  };
 
   return (
     <View className="container h-full justify-center bg-white">
       <Onboarding
+          onSkip={onDone}
+          onDone={onDone}
         pages={[
           {
             backgroundColor: "#fef3c7",
