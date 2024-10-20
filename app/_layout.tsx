@@ -1,6 +1,9 @@
 import { Slot, SplashScreen } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import migrations from "@/db/migrations/migrations";
+import {useMigrations} from "drizzle-orm/expo-sqlite/migrator";
+import {db} from "@/db/connection/connection";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -18,14 +21,21 @@ export default function RootLayout() {
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
   });
 
+  const { success: migrationSuccess, error: migrationError } = useMigrations(db, migrations);
+
   useEffect(() => {
     if (error) throw error;
 
     if (fontsLoaded) {
       console.log("Fonts has been loaded successfully.");
+    }
+    if(migrationSuccess){
+      console.log("DB migration loaded successfully.");
+    }
+    if(fontsLoaded && migrationSuccess) {
       SplashScreen.hideAsync();
     }
-  }, [fontsLoaded, error]);
+  }, [fontsLoaded, error, migrationSuccess, migrationError]);
 
   if (!fontsLoaded && !error) {
     return null;

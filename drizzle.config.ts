@@ -4,5 +4,5 @@ export default defineConfig({
   dialect: "sqlite",
   driver: "expo",
   schema: "./db/model",
-  out: './db/migrations',
+  out: "./db/migrations",
 });
