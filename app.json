@@ -24,14 +24,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/launcher/ic_launcher-web.png\"",
-      "build": {
-        "babel": {
-          "include": [
-            "@ui-kitten/components"
-          ]
-        }
-      }
+      "favicon": "./assets/launcher/ic_launcher-web.png"
     },
     "plugins": [
       "expo-router",
