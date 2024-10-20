@@ -11,8 +11,8 @@ export default function Index() {
     useEffect(() => {
         if (!navigationState?.key) return;
         if (isFirstLaunch) {
-           return  router.push('/startIntro')
+           return  router.replace('/startIntro')
         }
-       return  router.push('/dashboard')
+       return  router.replace('/dashboard')
     }, [navigationState, isFirstLaunch]);
 }
