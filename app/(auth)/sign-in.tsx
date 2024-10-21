@@ -14,8 +14,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Icons from "@/components/Icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as LocalAuthentication from "expo-local-authentication";
-import {useSecureStore} from "@/hooks/useSecureStore";
-import {useAccount} from "@/hooks/useAccount";
+import { useSecureStore } from "@/hooks/useSecureStore";
+import { useAccount } from "@/hooks/useAccount";
 import Toast from "react-native-toast-message";
 
 export default function SignIn() {
@@ -78,30 +78,40 @@ export default function SignIn() {
 
   const onSubmit = async (data: any) => {};
   const onBiometricLogin = async () => {
-      try {
-          const result = await LocalAuthentication.authenticateAsync({
-              promptMessage: `Login with Touch ID`,
-              fallbackLabel: "Enter password",
+    try {
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: `Login with Touch ID`,
+        fallbackLabel: "Enter password",
+      });
+      if (result.success) {
+        const storedEmail = await useSecureStore().get("userEmail");
+        const storedPassword = await useSecureStore().get("userPin");
+        if (storedEmail && storedPassword) {
+          await useAccount().loginAccount({
+            email: storedEmail,
+            password: storedPassword,
           });
-          if (result.success) {
-              const storedEmail = await useSecureStore().get("userEmail");
-              const storedPassword = await useSecureStore().get("userPin");
-              if (storedEmail && storedPassword) {
-                  await useAccount().loginAccount({
-                      email: storedEmail,
-                      password: storedPassword,
-                  });
-              } else {
-                  Toast.show({
-                      type: 'error',
-                      text1: "No credentials found. Please log in manually."
-                  })
-                  setIsBiometricSupported(false);
-              }
-          }
-
+        } else {
+          Toast.show({
+            type: "error",
+            text1: "No credentials found. Please log in manually.",
+          });
+          setIsBiometricSupported(false);
+        }
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "Biometric authentication failed.",
+        });
       }
-  }
+    } catch (error) {
+      console.log("Biometric authentication error:", error);
+      Toast.show({
+        type: "error",
+        text1: "An error occurred during biometric authentication.",
+      });
+    }
+  };
 
   return (
     <React.Fragment>
