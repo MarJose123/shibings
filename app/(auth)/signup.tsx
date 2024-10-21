@@ -17,6 +17,7 @@ import { useFingerprint } from "@/hooks/useFingerprint";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {useAccount} from "@/hooks/useAccount";
 import Toast from "react-native-toast-message";
+import SmoothPinCodeInput from "@dreamwalk-os/react-native-smooth-pincode-input";
 
 export default function signUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -123,16 +124,16 @@ export default function signUp() {
               PIN
             </Text>
             <View
-              className={`${errors.email ? "border-red-400" : "border-black-200"} h-16 px-4 rounded-2xl border-2 border-black-200 focus:border-secondary flex-row items-center`}
+              className={`${errors.email ? "border-red-400" : "border-black-200"}`}
             >
               <Controller
                 control={control}
                 rules={{
                   required: true,
-                  maxLength: 4,
+                  maxLength: 6,
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
+                  /*<TextInput
                     inputMode={"numeric"}
                     keyboardType={"number-pad"}
                     className="text-secondary-950 font-psemibold text-base flex-1"
@@ -141,21 +142,33 @@ export default function signUp() {
                     onChangeText={onChange}
                     placeholderTextColor="#7B7B8B"
                     secureTextEntry={showPassword}
-                    maxLength={4}
-                  />
+                    maxLength={6}
+                  />*/
+                    <SmoothPinCodeInput
+                        placeholder={<View style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: 25,
+                          opacity: 0.3,
+                          backgroundColor: 'blue',
+                        }}></View>}
+                        mask={<View style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: 25,
+                          backgroundColor: 'blue',
+                        }}></View>}
+                        maskDelay={1000}
+                        password={true}
+                        cellStyle={null}
+                        codeLength={6}
+                        cellStyleFocused={null}
+                        value={value}
+                        onTextChange={onChange}
+                    />
                 )}
                 name="password"
               />
-
-              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <View>
-                  {showPassword ? (
-                    <Feather name="eye" size={24} color="black" />
-                  ) : (
-                    <Feather name="eye-off" size={24} color="black" />
-                  )}
-                </View>
-              </TouchableOpacity>
             </View>
             {errors.password && errors.password?.type == "required" && (
               <Text className="text-red-400">PIN is required.</Text>
@@ -174,7 +187,7 @@ export default function signUp() {
                     onPress={async () => await enableBiometricAuth('TouchID') }
                 >
                   <View className='flex-row space-x-2 items-center'>
-                    <Ionicons name={'finger-print'} size={24}/>
+                    <Ionicons name={'finger-print'} size={24} color={'white'}/>
                     <Text className='text-white font-pbold'>{biometricAuth.isTouchIDEnabled
                         ? "Touch ID Enabled"
                         : "Enable Touch ID"}</Text>
