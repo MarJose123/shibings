@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
+  ActivityIndicator, Keyboard,
   Text,
   TextInput, Touchable,
   TouchableOpacity,
@@ -15,6 +15,8 @@ import { useRouter } from "expo-router";
 import * as LocalAuthentication from "expo-local-authentication";
 import { useFingerprint } from "@/hooks/useFingerprint";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import {useAccount} from "@/hooks/useAccount";
+import Toast from "react-native-toast-message";
 
 export default function signUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,8 +44,18 @@ export default function signUp() {
     },
   });
 
-  const onSubmit = (data: any) => {
-    // return router.replace('/sign-in')
+  const onSubmit =  async (data: any) => {
+    Keyboard.dismiss();
+    const result = await  useAccount().createAccount(data);
+    if(result){
+      // account has been created
+      Toast.show({
+        type: "success",
+        text1: 'Account has been created successfully.',
+      })
+      return router.replace('/sign-in')
+    }
+    console.log(result)
   };
 
   return (
