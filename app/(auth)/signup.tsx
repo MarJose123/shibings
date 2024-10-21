@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {
   ActivityIndicator,
   Text,
-  TextInput,
+  TextInput, Touchable,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -11,10 +11,24 @@ import Icons from "@/components/Icons";
 import { Controller, useForm } from "react-hook-form";
 import * as EmailValidator from "email-validator";
 import LoadingScreen from "@/components/Loader";
+import { useRouter } from "expo-router";
+import * as LocalAuthentication from "expo-local-authentication";
+import { useFingerprint } from "@/hooks/useFingerprint";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function signUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [loadingText, setLoadingText] = useState("Loading...");
+  const { biometricAuth, enableBiometricAuth, availableBiometrics } =
+    useFingerprint();
+  const router = useRouter();
+  const isFaceIdAvailable = availableBiometrics.includes(
+    LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
+  );
+  const isTouchIDAvailable = availableBiometrics.includes(
+    LocalAuthentication.AuthenticationType.FINGERPRINT,
+  );
+  const isAnyBiometricAvailable = isFaceIdAvailable || isTouchIDAvailable;
 
   const {
     control,
@@ -140,6 +154,23 @@ export default function signUp() {
               </Text>
             )}
           </View>
+          <View>
+            {isTouchIDAvailable && (
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    className="items-center bg-blue-500 rounded-xl min-h-[62px] justify-center"
+                    onPress={async () => await enableBiometricAuth('TouchID') }
+                >
+                  <View className='flex-row space-x-2 items-center'>
+                    <Ionicons name={'finger-print'} size={24}/>
+                    <Text className='text-white font-pbold'>{biometricAuth.isTouchIDEnabled
+                        ? "Touch ID Enabled"
+                        : "Enable Touch ID"}</Text>
+                  </View>
+                </TouchableOpacity>
+            )}
+          </View>
+
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={handleSubmit(onSubmit)}
@@ -150,17 +181,20 @@ export default function signUp() {
               <Text className="text-white font-pextrabold ">
                 Create Account
               </Text>
-              <Icons.arrowRight
-                className="stroke-1 h-4 w-4 stroke-white ml-5"
-                fillClassName={"white"}
-              />
+              {!isSubmitting ? (
+                <Icons.arrowRight
+                  className="stroke-1 h-4 w-4 stroke-white ml-5"
+                  fillClassName={"white"}
+                />
+              ) : (
+                <ActivityIndicator
+                  animating={true}
+                  color="#fff"
+                  size="small"
+                  className="ml-2"
+                />
+              )}
             </View>
-            <ActivityIndicator
-              animating={isSubmitting}
-              color="#fff"
-              size="small"
-              className="ml-2"
-            />
           </TouchableOpacity>
         </View>
       </View>

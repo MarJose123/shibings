@@ -2,8 +2,10 @@ import { Slot, SplashScreen } from "expo-router";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import migrations from "@/db/migrations/migrations";
-import {useMigrations} from "drizzle-orm/expo-sqlite/migrator";
-import {db} from "@/db/connection/connection";
+import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
+import { db } from "@/db/connection/connection";
+import Toast from "react-native-toast-message";
+import React from "react";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -21,7 +23,10 @@ export default function RootLayout() {
     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
   });
 
-  const { success: migrationSuccess, error: migrationError } = useMigrations(db, migrations);
+  const { success: migrationSuccess, error: migrationError } = useMigrations(
+    db,
+    migrations,
+  );
 
   useEffect(() => {
     if (error) throw error;
@@ -29,10 +34,10 @@ export default function RootLayout() {
     if (fontsLoaded) {
       console.log("Fonts has been loaded successfully.");
     }
-    if(migrationSuccess){
+    if (migrationSuccess) {
       console.log("DB migration loaded successfully.");
     }
-    if(fontsLoaded && migrationSuccess) {
+    if (fontsLoaded && migrationSuccess) {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded, error, migrationSuccess, migrationError]);
@@ -41,5 +46,10 @@ export default function RootLayout() {
     return null;
   }
 
-  return <Slot />;
+  return (
+    <React.Fragment>
+      <Slot />
+      <Toast />
+    </React.Fragment>
+  );
 }
