@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import {
-  ActivityIndicator, Keyboard,
+  ActivityIndicator,
+  Keyboard,
   Text,
-  TextInput, Touchable,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import Icons from "@/components/Icons";
 import { Controller, useForm } from "react-hook-form";
 import * as EmailValidator from "email-validator";
@@ -15,12 +15,11 @@ import { useRouter } from "expo-router";
 import * as LocalAuthentication from "expo-local-authentication";
 import { useFingerprint } from "@/hooks/useFingerprint";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {useAccount} from "@/hooks/useAccount";
+import { useAccount } from "@/hooks/useAccount";
 import Toast from "react-native-toast-message";
 import SmoothPinCodeInput from "@dreamwalk-os/react-native-smooth-pincode-input";
 
 export default function signUp() {
-  const [showPassword, setShowPassword] = useState(false);
   const [loadingText, setLoadingText] = useState("Loading...");
   const { biometricAuth, enableBiometricAuth, availableBiometrics } =
     useFingerprint();
@@ -45,18 +44,18 @@ export default function signUp() {
     },
   });
 
-  const onSubmit =  async (data: any) => {
+  const onSubmit = async (data: any) => {
     Keyboard.dismiss();
-    const result = await  useAccount().createAccount(data);
-    if(result){
+    const result = await useAccount().createAccount(data);
+    if (result) {
       // account has been created
       Toast.show({
         type: "success",
-        text1: 'Account has been created successfully.',
-      })
-      return router.replace('/sign-in')
+        text1: "Account has been created successfully.",
+      });
+      return router.replace("/sign-in");
     }
-    console.log(result)
+    console.log(result);
   };
 
   return (
@@ -133,39 +132,36 @@ export default function signUp() {
                   maxLength: 6,
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
-                  /*<TextInput
-                    inputMode={"numeric"}
-                    keyboardType={"number-pad"}
-                    className="text-secondary-950 font-psemibold text-base flex-1"
-                    value={value}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    placeholderTextColor="#7B7B8B"
-                    secureTextEntry={showPassword}
-                    maxLength={6}
-                  />*/
-                    <SmoothPinCodeInput
-                        placeholder={<View style={{
+                  <SmoothPinCodeInput
+                    placeholder={
+                      <View
+                        style={{
                           width: 10,
                           height: 10,
                           borderRadius: 25,
                           opacity: 0.3,
-                          backgroundColor: 'blue',
-                        }}></View>}
-                        mask={<View style={{
+                          backgroundColor: "blue",
+                        }}
+                      ></View>
+                    }
+                    mask={
+                      <View
+                        style={{
                           width: 10,
                           height: 10,
                           borderRadius: 25,
-                          backgroundColor: 'blue',
-                        }}></View>}
-                        maskDelay={1000}
-                        password={true}
-                        cellStyle={null}
-                        codeLength={6}
-                        cellStyleFocused={null}
-                        value={value}
-                        onTextChange={onChange}
-                    />
+                          backgroundColor: "blue",
+                        }}
+                      ></View>
+                    }
+                    maskDelay={1000}
+                    password={true}
+                    cellStyle={null}
+                    codeLength={6}
+                    cellStyleFocused={null}
+                    value={value}
+                    onTextChange={onChange}
+                  />
                 )}
                 name="password"
               />
@@ -175,24 +171,26 @@ export default function signUp() {
             )}
             {errors.password && errors.password?.type == "maxLength" && (
               <Text className="text-red-400">
-                PIN is too long. max length is 4 digit.
+                PIN is too long. max length is 6 digit.
               </Text>
             )}
           </View>
           <View>
             {isTouchIDAvailable && (
-                <TouchableOpacity
-                    activeOpacity={0.7}
-                    className="items-center bg-blue-500 rounded-xl min-h-[62px] justify-center"
-                    onPress={async () => await enableBiometricAuth('TouchID') }
-                >
-                  <View className='flex-row space-x-2 items-center'>
-                    <Ionicons name={'finger-print'} size={24} color={'white'}/>
-                    <Text className='text-white font-pbold'>{biometricAuth.isTouchIDEnabled
-                        ? "Touch ID Enabled"
-                        : "Enable Touch ID"}</Text>
-                  </View>
-                </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                className="items-center bg-blue-500 rounded-xl min-h-[62px] justify-center"
+                onPress={async () => await enableBiometricAuth("TouchID")}
+              >
+                <View className="flex-row space-x-2 items-center">
+                  <Ionicons name={"finger-print"} size={24} color={"white"} />
+                  <Text className="text-white font-pbold">
+                    {biometricAuth.isTouchIDEnabled
+                      ? "Touch ID Enabled"
+                      : "Enable Touch ID"}
+                  </Text>
+                </View>
+              </TouchableOpacity>
             )}
           </View>
 

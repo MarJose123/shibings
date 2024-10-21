@@ -6,7 +6,12 @@ export const useSecureStore = () => {
         await SecureStore.setItemAsync(key, value);
     }
 
+    const get = async (key: any) => {
+        return await SecureStore.getItemAsync(key);
+    }
+
     return {
         save,
+        get
     }
 }
