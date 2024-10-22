@@ -17,6 +17,7 @@ export const useAccount = () => {
 
   const createAccount = async (props: AccountType) => {
     try {
+      await db.delete(users);
       const result = await db
         .insert(users)
         .values({ ...props })

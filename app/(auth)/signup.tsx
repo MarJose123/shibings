@@ -25,6 +25,7 @@ export default function signUp() {
   const { biometricAuth, enableBiometricAuth, availableBiometrics } =
     useFingerprint();
   const router = useRouter();
+  const appLaunch = useAppHook();
   const isFaceIdAvailable = availableBiometrics.includes(
     LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
   );
@@ -55,7 +56,7 @@ export default function signUp() {
         type: "success",
         text1: "Account has been created successfully.",
       });
-      await useAppHook().setFirstLaunch(true);
+      await appLaunch.setFirstLaunch(true);
       return router.replace("/sign-in");
     }
   };
