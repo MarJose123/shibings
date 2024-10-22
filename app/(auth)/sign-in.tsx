@@ -17,6 +17,7 @@ import * as LocalAuthentication from "expo-local-authentication";
 import { useSecureStore } from "@/hooks/useSecureStore";
 import { useAccount } from "@/hooks/useAccount";
 import Toast from "react-native-toast-message";
+import { router } from "expo-router";
 
 export default function SignIn() {
   const [loadingText, setLoadingText] = useState("Loading...");
@@ -27,6 +28,7 @@ export default function SignIn() {
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -76,7 +78,24 @@ export default function SignIn() {
     checkBiometricSupport().then();
   }, []);
 
-  const onSubmit = async (data: any) => {};
+  const onSubmit = async (data: any) => {
+    const resp = await useAccount().loginAccount({
+      email: data.email,
+      password: data.password,
+    });
+    if (resp) {
+      return router.replace("/dashboard");
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "No credentials found. Please try again.",
+      });
+      setError("password", {
+        type: "custom",
+        message: "Invalid credentials. Please try again.",
+      });
+    }
+  };
   const onBiometricLogin = async () => {
     try {
       const result = await LocalAuthentication.authenticateAsync({
@@ -87,10 +106,23 @@ export default function SignIn() {
         const storedEmail = await useSecureStore().get("userEmail");
         const storedPassword = await useSecureStore().get("userPin");
         if (storedEmail && storedPassword) {
-          await useAccount().loginAccount({
+          const resp = await useAccount().loginAccount({
             email: storedEmail,
             password: storedPassword,
           });
+          if (resp) {
+            return router.replace("/dashboard");
+          } else {
+            Toast.show({
+              type: "error",
+              text1: "No credentials found. Please log in manually.",
+            });
+            setError("password", {
+              type: "custom",
+              message: "No credentials found. Please log in manually.",
+            });
+            setIsBiometricSupported(false);
+          }
         } else {
           Toast.show({
             type: "error",
@@ -205,13 +237,16 @@ export default function SignIn() {
                 PIN is too long. max length is 6 digit.
               </Text>
             )}
+            {errors.password && errors.password?.type == "custom" && (
+              <Text className="text-red-400">{errors.password?.message}</Text>
+            )}
           </View>
           <View>
             {isBiometricSupported && isBiometricEnabled && (
               <TouchableOpacity
                 activeOpacity={0.7}
                 className="items-center bg-blue-500 rounded-xl min-h-[62px] justify-center"
-                onPress={async () => await enableBiometricAuth("TouchID")}
+                onPress={onBiometricLogin}
               >
                 <View className="flex-row space-x-2 items-center">
                   <Ionicons name={"finger-print"} size={24} color={"white"} />
