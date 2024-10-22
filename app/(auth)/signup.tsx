@@ -48,7 +48,8 @@ export default function signUp() {
   const onSubmit = async (data: any) => {
     Keyboard.dismiss();
     const result = await useAccount().createAccount(data);
-    if (result) {
+    console.log(result);
+    if (result.success) {
       // account has been created
       Toast.show({
         type: "success",
