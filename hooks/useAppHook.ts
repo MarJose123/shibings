@@ -20,7 +20,18 @@ export const useAppHook = () => {
     checkFirstLaunch().then();
   }, []);
 
+  const setFirstLaunch = async (doneOnboarding: boolean) => {
+    if (doneOnboarding) {
+      AsyncStorage.setItem("isFirstLaunch", AppLaunch.No).then();
+      setIsFirstLaunch(false);
+    } else {
+      AsyncStorage.setItem("isFirstLaunch", AppLaunch.Yes).then();
+      setIsFirstLaunch(true);
+    }
+  };
+
   return {
     isFirstLaunch,
+    setFirstLaunch,
   };
 };

@@ -18,6 +18,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useAccount } from "@/hooks/useAccount";
 import Toast from "react-native-toast-message";
 import SmoothPinCodeInput from "@dreamwalk-os/react-native-smooth-pincode-input";
+import { useAppHook } from "@/hooks/useAppHook";
 
 export default function signUp() {
   const [loadingText, setLoadingText] = useState("Loading...");
@@ -53,9 +54,9 @@ export default function signUp() {
         type: "success",
         text1: "Account has been created successfully.",
       });
+      await useAppHook().setFirstLaunch(true);
       return router.replace("/sign-in");
     }
-    console.log(result);
   };
 
   return (
