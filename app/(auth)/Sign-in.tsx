@@ -56,6 +56,7 @@ export default function SignIn() {
     const hasSecureStore = async () => {
       const hasUserName = await secureStore.get("userName");
       if (hasUserName === undefined) {
+        console.log(hasUserName)
         setIsBiometricSupported(false);
       }
     };
@@ -63,8 +64,8 @@ export default function SignIn() {
     checkBiometricSupport().then();
     hasSecureStore().then();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+  }, [secureStore]);
 
   const onSubmit = async (data: any) => {
     const resp = await account.loginAccount({
