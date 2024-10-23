@@ -1,4 +1,4 @@
 export enum AppLaunch {
-    Yes = 'yes',
-    No = 'no',
+  Yes = "yes",
+  No = "no",
 }

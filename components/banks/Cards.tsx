@@ -7,15 +7,20 @@ type BankCardProps = {
   bankName: string;
   monthYear: string;
   balance: number;
-}
+};
 
 export default function BankCards(props: BankCardProps) {
   return (
-    <View className="border rounded-lg backdrop-blur-sm bg-[#0d1216] drop-shadow-md" style={{ marginVertical: 8}}>
+    <View
+      className="border rounded-lg backdrop-blur-sm bg-[#0d1216] drop-shadow-md"
+      style={{ marginVertical: 8 }}
+    >
       <View className="p-3">
         <View className="flex flex-col gap-2">
           <View className="flex flex-row flex-wrap justify-between">
-            <Text className="text-white font-pbold text-2xl">{props.bankName}</Text>
+            <Text className="text-white font-pbold text-2xl">
+              {props.bankName}
+            </Text>
             <TouchableOpacity>
               <Icons.eye className="stroke-1 h-6 w-6 stroke-white" />
             </TouchableOpacity>

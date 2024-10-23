@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -21,18 +21,14 @@ import SmoothPinCodeInput from "@dreamwalk-os/react-native-smooth-pincode-input"
 import { useAppHook } from "@/hooks/useAppHook";
 
 export default function signUp() {
-  const [loadingText, setLoadingText] = useState("Loading...");
   const { biometricAuth, enableBiometricAuth, availableBiometrics } =
     useFingerprint();
-  const router = useRouter();
   const appLaunch = useAppHook();
-  const isFaceIdAvailable = availableBiometrics.includes(
-    LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
-  );
   const isTouchIDAvailable = availableBiometrics.includes(
     LocalAuthentication.AuthenticationType.FINGERPRINT,
   );
-  const isAnyBiometricAvailable = isFaceIdAvailable || isTouchIDAvailable;
+  const router = useRouter();
+  const account = useAccount();
 
   const {
     control,
@@ -48,7 +44,7 @@ export default function signUp() {
 
   const onSubmit = async (data: any) => {
     Keyboard.dismiss();
-    const result = await useAccount().createAccount(data);
+    const result = await account.createAccount(data);
     if (result.success) {
       // account has been created
       Toast.show({
@@ -57,7 +53,7 @@ export default function signUp() {
       });
       await appLaunch.setFirstLaunch(true);
       return router.replace("/sign-in");
-    }else {
+    } else {
       console.error(result);
       Toast.show({
         type: "error",
@@ -68,7 +64,10 @@ export default function signUp() {
 
   return (
     <React.Fragment>
-      <LoadingScreen visible={isSubmitting} textContent={loadingText} />
+      <LoadingScreen
+        visible={isSubmitting}
+        textContent={"Loading.. Please wait.."}
+      />
       <View className="container h-full justify-center bg-white px-2">
         <View className="px-4 flex-col gap-4">
           <Text className="text-3xl font-pextrabold">Create Account</Text>
@@ -92,7 +91,7 @@ export default function signUp() {
               )}
               name="name"
             />
-            {errors.name && errors.name?.type == "required" && (
+            {errors.name && errors.name?.type.includes("required") && (
               <Text className="text-red-400">Name is required.</Text>
             )}
           </View>
@@ -119,10 +118,10 @@ export default function signUp() {
               )}
               name="email"
             />
-            {errors.email && errors.email?.type == "required" && (
+            {errors.email && errors.email?.type.includes("required") && (
               <Text className="text-red-400">Email is required.</Text>
             )}
-            {errors.email && errors.email?.type == "validate" && (
+            {errors.email && errors.email?.type.includes("validate") && (
               <Text className="text-red-400">Invalid email address.</Text>
             )}
           </View>
@@ -174,10 +173,10 @@ export default function signUp() {
                 name="password"
               />
             </View>
-            {errors.password && errors.password?.type == "required" && (
+            {errors.password && errors.password?.type.includes("required") && (
               <Text className="text-red-400">PIN is required.</Text>
             )}
-            {errors.password && errors.password?.type == "maxLength" && (
+            {errors.password && errors.password?.type.includes("maxLength") && (
               <Text className="text-red-400">
                 PIN is too long. max length is 6 digit.
               </Text>

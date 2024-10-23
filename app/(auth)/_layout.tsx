@@ -1,12 +1,11 @@
-import {Slot, Stack} from "expo-router";
-import { SafeAreaView } from "react-native";
-import {StatusBar} from "expo-status-bar";
+import { Slot } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
 const AuthLayout = () => {
   return (
     <>
-        <Slot />
-       <StatusBar style="dark" />
+      <Slot />
+      <StatusBar style="dark" />
     </>
   );
 };

@@ -20,11 +20,10 @@ import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 
 export default function SignIn() {
-  const [loadingText, setLoadingText] = useState("Loading...");
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
-  const [biometricType, setBiometricType] = useState("");
   const [isBiometricEnabled, setIsBiometricEnabled] = useState(false);
   const secureStore = useSecureStore();
+  const account = useAccount();
 
   const {
     control,
@@ -77,7 +76,7 @@ export default function SignIn() {
     };
     const hasSecureStore = async () => {
       const hasUserName = await secureStore.get("userName");
-      if (typeof hasSecureStore == undefined) {
+      if (hasUserName === undefined) {
         setIsBiometricSupported(false);
       }
     };
@@ -87,7 +86,7 @@ export default function SignIn() {
   }, []);
 
   const onSubmit = async (data: any) => {
-    const resp = await useAccount().loginAccount({
+    const resp = await account.loginAccount({
       email: data.email,
       password: data.password,
     });
@@ -111,10 +110,10 @@ export default function SignIn() {
         fallbackLabel: "Enter password",
       });
       if (result.success) {
-        const storedEmail = await useSecureStore().get("userEmail");
-        const storedPassword = await useSecureStore().get("userPin");
+        const storedEmail = await secureStore.get("userEmail");
+        const storedPassword = await secureStore.get("userPin");
         if (storedEmail && storedPassword) {
-          const resp = await useAccount().loginAccount({
+          const resp = await account.loginAccount({
             email: storedEmail,
             password: storedPassword,
           });
@@ -155,7 +154,7 @@ export default function SignIn() {
 
   return (
     <React.Fragment>
-      <LoadingScreen visible={isSubmitting} textContent={loadingText} />
+      <LoadingScreen visible={isSubmitting} textContent={"Signing in..."} />
       <View className="container h-full justify-center bg-white px-2">
         <View className="px-4 flex-col gap-4">
           <Text className="text-3xl font-pextrabold">Sign In to Shibings</Text>
@@ -182,10 +181,10 @@ export default function SignIn() {
               )}
               name="email"
             />
-            {errors.email && errors.email?.type == "required" && (
+            {errors.email && errors.email?.type.includes("required") && (
               <Text className="text-red-400">Email is required.</Text>
             )}
-            {errors.email && errors.email?.type == "validate" && (
+            {errors.email && errors.email?.type.includes("validate") && (
               <Text className="text-red-400">Invalid email address.</Text>
             )}
           </View>
@@ -237,15 +236,15 @@ export default function SignIn() {
                 name="password"
               />
             </View>
-            {errors.password && errors.password?.type == "required" && (
+            {errors.password && errors.password?.type.includes("required") && (
               <Text className="text-red-400">PIN is required.</Text>
             )}
-            {errors.password && errors.password?.type == "maxLength" && (
+            {errors.password && errors.password?.type.includes("maxLength") && (
               <Text className="text-red-400">
                 PIN is too long. max length is 6 digit.
               </Text>
             )}
-            {errors.password && errors.password?.type == "custom" && (
+            {errors.password && errors.password?.type.includes("custom") && (
               <Text className="text-red-400">{errors.password?.message}</Text>
             )}
           </View>

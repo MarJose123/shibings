@@ -2,7 +2,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import LottieView from "lottie-react-native";
 import React from "react";
 import Icons from "@/components/Icons";
-import {router} from "expo-router";
+import { router } from "expo-router";
 
 export default function EndIntroScreen() {
   return (
@@ -26,7 +26,7 @@ export default function EndIntroScreen() {
         </Text>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => router.push('/signup')}
+          onPress={() => router.push("/signup")}
           className="items-center bg-primary rounded-xl min-h-[62px] justify-center"
         >
           <View className="flex-row justify-between items-center">

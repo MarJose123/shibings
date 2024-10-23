@@ -13,5 +13,5 @@ export default function Index() {
       return router.replace("/startIntro");
     }
     return router.replace("/sign-in");
-  }, [navigationState, isFirstLaunch]);
+  }, [navigationState, isFirstLaunch, router]);
 }

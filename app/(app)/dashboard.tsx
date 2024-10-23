@@ -1,4 +1,4 @@
-import {Dimensions, FlatList, ScrollView, Text, View} from "react-native";
+import { Dimensions, FlatList, ScrollView, Text, View } from "react-native";
 import React from "react";
 import Title from "@/components/Title";
 import BankCards from "@/components/banks/Cards";
