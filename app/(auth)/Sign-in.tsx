@@ -43,27 +43,6 @@ export default function SignIn() {
       const compatible = await LocalAuthentication.hasHardwareAsync();
       setIsBiometricSupported(compatible);
 
-      if (compatible) {
-        const savedBiometrics = await LocalAuthentication.isEnrolledAsync();
-        if (savedBiometrics) {
-          const types =
-            await LocalAuthentication.supportedAuthenticationTypesAsync();
-          if (
-            types.includes(
-              LocalAuthentication.AuthenticationType.FACIAL_RECOGNITION,
-            )
-          ) {
-            setBiometricType("Face ID");
-          } else if (
-            types.includes(LocalAuthentication.AuthenticationType.FINGERPRINT)
-          ) {
-            setBiometricType("Touch ID");
-          } else {
-            setBiometricType("Biometrics");
-          }
-        }
-      }
-
       const biometricEnabled = await AsyncStorage.getItem(
         "biometricAuthStatus",
       );
@@ -84,7 +63,7 @@ export default function SignIn() {
     checkBiometricSupport().then();
     hasSecureStore().then();
 
-    //@ts-ignore react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = async (data: any) => {
