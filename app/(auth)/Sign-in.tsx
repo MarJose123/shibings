@@ -29,6 +29,7 @@ export default function SignIn() {
     control,
     handleSubmit,
     setError,
+      resetField,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -83,6 +84,7 @@ export default function SignIn() {
         type: "custom",
         message: "Invalid credentials. Please try again.",
       });
+      resetField('password', {keepError: true, defaultValue: ''});
     }
   };
   const onBiometricLogin = async () => {
