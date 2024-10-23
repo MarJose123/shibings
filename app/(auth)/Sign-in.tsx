@@ -29,7 +29,7 @@ export default function SignIn() {
     control,
     handleSubmit,
     setError,
-      resetField,
+    resetField,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
@@ -57,15 +57,13 @@ export default function SignIn() {
     const hasSecureStore = async () => {
       const hasUserName = await secureStore.get("userName");
       if (hasUserName === undefined) {
-        console.log(hasUserName)
+        console.log(hasUserName);
         setIsBiometricSupported(false);
       }
     };
 
     checkBiometricSupport().then();
     hasSecureStore().then();
-
-
   }, [secureStore]);
 
   const onSubmit = async (data: any) => {
@@ -84,7 +82,7 @@ export default function SignIn() {
         type: "custom",
         message: "Invalid credentials. Please try again.",
       });
-      resetField('password', {keepError: true, defaultValue: ''});
+      resetField("password", { keepError: true, defaultValue: "" });
     }
   };
   const onBiometricLogin = async () => {
