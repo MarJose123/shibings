@@ -49,7 +49,6 @@ export default function signUp() {
   const onSubmit = async (data: any) => {
     Keyboard.dismiss();
     const result = await useAccount().createAccount(data);
-    console.log(result);
     if (result.success) {
       // account has been created
       Toast.show({
@@ -59,6 +58,7 @@ export default function signUp() {
       await appLaunch.setFirstLaunch(true);
       return router.replace("/sign-in");
     }else {
+      console.error(result);
       Toast.show({
         type: "error",
         text1: "Something went wrong, Please try again.",
