@@ -1,7 +1,6 @@
 import { Image, Text, View } from "react-native";
 import React from "react";
 import Icons from "@/components/Icons";
-import {MaterialIcons} from "@expo/vector-icons";
 
 export default function AppHeader() {
   return (
