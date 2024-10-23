@@ -82,27 +82,30 @@ const arrowRight = ({
 };
 
 const logout = ({
-                    className,
-                    fillClassName,
-                }: {
-    className: string;
-    fillClassName?: string;
+  className,
+  fillClassName,
+}: {
+  className: string;
+  fillClassName?: string;
 }) => {
-    return (
-        <Svg stroke-linecap="round" stroke-linejoin="round"  viewBox="0 0 24 24"
-             fill={`${fillClassName ?? "none"}`}
-             className={`${className}`}
-             >
-            <Path d="M17 16l4-4m0 0l-4-4 m4 4h-14m5 8 H6a3 3 0 01-3-3V7a3 3 0 013-3h7"></Path>
-        </Svg>
-    );
-}
+  return (
+    <Svg
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      viewBox="0 0 24 24"
+      fill={`${fillClassName ?? "none"}`}
+      className={`${className}`}
+    >
+      <Path d="M17 16l4-4m0 0l-4-4 m4 4h-14m5 8 H6a3 3 0 01-3-3V7a3 3 0 013-3h7"></Path>
+    </Svg>
+  );
+};
 
 export default {
-    eye,
-    eyeSlash,
-    cogs,
-    notificationBell,
-    arrowRight,
-    logout
+  eye,
+  eyeSlash,
+  cogs,
+  notificationBell,
+  arrowRight,
+  logout,
 };
