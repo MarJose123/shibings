@@ -41,12 +41,23 @@ export const useAccount = () => {
   };
 
   const loginAccount = async (props: AccountLoginType) => {
-    const record = await db
-      .select()
-      .from(users)
-      .where(eq(users.email, props.email));
-    console.log(record);
-    return false;
+    try {
+      const record = await db
+        .select()
+        .from(users)
+        .where(eq(users.email, props.email));
+      if (record.length > 0 && record[0].password === props.password) {
+        await secureStore.save("userEmail", record[0].email);
+        await secureStore.save("userName", record[0].name);
+        await secureStore.save("userPin", record[0].password);
+        return { success: true };
+      } else {
+        return { success: false };
+      }
+    } catch (error) {
+      console.error(error);
+      return { success: false, error: error };
+    }
   };
 
   return {

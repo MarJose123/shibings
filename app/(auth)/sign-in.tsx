@@ -77,14 +77,13 @@ export default function SignIn() {
     };
     const hasSecureStore = async () => {
       const hasUserName = await secureStore.get("userName");
-      if(typeof hasSecureStore == undefined){
+      if (typeof hasSecureStore == undefined) {
         setIsBiometricSupported(false);
       }
-    }
+    };
 
     checkBiometricSupport().then();
     hasSecureStore().then();
-
   }, []);
 
   const onSubmit = async (data: any) => {
@@ -92,7 +91,7 @@ export default function SignIn() {
       email: data.email,
       password: data.password,
     });
-    if (resp) {
+    if (resp.success) {
       return router.replace("/dashboard");
     } else {
       Toast.show({
@@ -119,7 +118,7 @@ export default function SignIn() {
             email: storedEmail,
             password: storedPassword,
           });
-          if (resp) {
+          if (resp.success) {
             return router.replace("/dashboard");
           } else {
             Toast.show({
