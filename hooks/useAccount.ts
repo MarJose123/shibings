@@ -4,6 +4,7 @@ import { useSecureStore } from "@/hooks/useSecureStore";
 import { eq } from "drizzle-orm";
 
 export const useAccount = () => {
+  const secureStore = useSecureStore();
   type AccountType = {
     name: string;
     email: string;
@@ -28,9 +29,9 @@ export const useAccount = () => {
         .returning();
       console.log(result);
       if (result.length > 0) {
-        await useSecureStore().save("userEmail", props.email);
-        await useSecureStore().save("userName", props.name);
-        await useSecureStore().save("userPin", props.password);
+        await secureStore.save("userEmail", props.email);
+        await secureStore.save("userName", props.name);
+        await secureStore.save("userPin", props.password);
         return { success: true };
       }
       return { success: false, error: result };
