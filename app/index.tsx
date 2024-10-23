@@ -12,6 +12,6 @@ export default function Index() {
     if (isFirstLaunch) {
       return router.replace("/startIntro");
     }
-    return router.replace("/sign-in");
+    return router.replace("/Sign-in");
   }, [navigationState, isFirstLaunch, router]);
 }

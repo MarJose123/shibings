@@ -18,10 +18,18 @@ import { useSecureStore } from "@/hooks/useSecureStore";
 import { useAccount } from "@/hooks/useAccount";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
+import { Avatar } from "@kolking/react-native-avatar";
+
+type StoredSessionType = {
+  name: string;
+  email: string;
+};
 
 export default function SignIn() {
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
   const [isBiometricEnabled, setIsBiometricEnabled] = useState(false);
+  const [hasActiveSessionStored, setHasActiveSessionStored] = useState(false);
+  const [sessionStored, setSessionStored] = useState<StoredSessionType>();
   const secureStore = useSecureStore();
   const account = useAccount();
 
@@ -57,14 +65,18 @@ export default function SignIn() {
     const hasSecureStore = async () => {
       const hasUserName = await secureStore.get("userName");
       if (hasUserName === undefined) {
-        console.log(hasUserName);
         setIsBiometricSupported(false);
       }
+      setHasActiveSessionStored(true);
+      setSessionStored({
+        name: (await secureStore.get("userName")) as string,
+        email: (await secureStore.get("userEmail")) as string,
+      });
     };
 
-    checkBiometricSupport().then();
-    hasSecureStore().then();
-  }, [secureStore]);
+    checkBiometricSupport();
+    hasSecureStore();
+  }, []);
 
   const onSubmit = async (data: any) => {
     const resp = await account.loginAccount({
@@ -137,39 +149,55 @@ export default function SignIn() {
   return (
     <React.Fragment>
       <LoadingScreen visible={isSubmitting} textContent={"Signing in..."} />
-      <View className="container h-full justify-center bg-white px-2">
-        <View className="px-4 flex-col gap-4">
-          <Text className="text-3xl font-pextrabold">Sign In to Shibings</Text>
-          <View>
-            <Text className="text-base text-secondary-950 font-pmedium">
-              Email
-            </Text>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-                validate: (value) => {
-                  return EmailValidator.validate(value);
-                },
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  className={`${errors.email ? "border-red-400" : "border-black-200"} text-secondary-950 font-psemibold text-base h-16 px-4 bg-black-100 rounded-2xl border-2 focus:border-secondary`}
-                  value={value}
-                  onBlur={onBlur}
-                  placeholderTextColor="#7B7B8B"
-                  onChangeText={onChange}
-                />
+      <View className="container justify-center h-full bg-white px-2">
+        <View className="px-4 flex-col gap-6">
+          <Text className="text-3xl font-pextrabold text-center">
+            Sign In to Shibings
+          </Text>
+          {hasActiveSessionStored && (
+            <View className="container items-center justify-center flex-col">
+              <Avatar
+                size={80}
+                name={sessionStored?.name}
+                email={sessionStored?.email}
+                source={{ uri: "https://avatar.iran.liara.run/public" }}
+              />
+              <Text className="mt-2">{sessionStored?.email}</Text>
+            </View>
+          )}
+          {!hasActiveSessionStored && (
+            <View>
+              <Text className="text-base text-secondary-950 font-pmedium">
+                Email
+              </Text>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                  validate: (value) => {
+                    return EmailValidator.validate(value);
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    className={`${errors.email ? "border-red-400" : "border-black-200"} text-secondary-950 font-psemibold text-base h-16 px-4 bg-black-100 rounded-2xl border-2 focus:border-secondary`}
+                    value={value}
+                    onBlur={onBlur}
+                    placeholderTextColor="#7B7B8B"
+                    onChangeText={onChange}
+                  />
+                )}
+                name="email"
+              />
+              {errors.email && errors.email?.type.includes("required") && (
+                <Text className="text-red-400">Email is required.</Text>
               )}
-              name="email"
-            />
-            {errors.email && errors.email?.type.includes("required") && (
-              <Text className="text-red-400">Email is required.</Text>
-            )}
-            {errors.email && errors.email?.type.includes("validate") && (
-              <Text className="text-red-400">Invalid email address.</Text>
-            )}
-          </View>
+              {errors.email && errors.email?.type.includes("validate") && (
+                <Text className="text-red-400">Invalid email address.</Text>
+              )}
+            </View>
+          )}
+
           <View>
             <Text className="text-base text-secondary-950 font-pmedium">
               PIN
@@ -231,20 +259,22 @@ export default function SignIn() {
             )}
           </View>
           <View>
-            {isBiometricSupported && isBiometricEnabled && (
-              <TouchableOpacity
-                activeOpacity={0.7}
-                className="items-center bg-blue-500 rounded-xl min-h-[62px] justify-center"
-                onPress={onBiometricLogin}
-              >
-                <View className="flex-row space-x-2 items-center">
-                  <Ionicons name={"finger-print"} size={24} color={"white"} />
-                  <Text className="text-white font-pbold">
-                    Login with Biometrics
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
+            {isBiometricSupported &&
+              isBiometricEnabled &&
+              hasActiveSessionStored && (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  className="items-center bg-blue-500 rounded-xl min-h-[62px] justify-center"
+                  onPress={onBiometricLogin}
+                >
+                  <View className="flex-row space-x-2 items-center">
+                    <Ionicons name={"finger-print"} size={24} color={"white"} />
+                    <Text className="text-white font-pbold">
+                      Login with Biometrics
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
           </View>
 
           <TouchableOpacity

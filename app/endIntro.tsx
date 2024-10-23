@@ -26,7 +26,7 @@ export default function EndIntroScreen() {
         </Text>
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => router.push("/signup")}
+          onPress={() => router.push("/Signup")}
           className="items-center bg-primary rounded-xl min-h-[62px] justify-center"
         >
           <View className="flex-row justify-between items-center">
