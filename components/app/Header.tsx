@@ -1,6 +1,7 @@
 import { Image, Text, View } from "react-native";
 import React from "react";
 import Icons from "@/components/Icons";
+import {MaterialIcons} from "@expo/vector-icons";
 
 export default function AppHeader() {
   return (
@@ -25,6 +26,9 @@ export default function AppHeader() {
           </View>
           <View>
             <Icons.cogs className="stroke-1 h-6 w-6 stroke-white" />
+          </View>
+          <View>
+            <Icons.logout className="stroke-1 h-6 w-6 stroke-white" />
           </View>
         </View>
       </View>
