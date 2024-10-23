@@ -24,6 +24,7 @@ export default function SignIn() {
   const [isBiometricSupported, setIsBiometricSupported] = useState(false);
   const [biometricType, setBiometricType] = useState("");
   const [isBiometricEnabled, setIsBiometricEnabled] = useState(false);
+  const secureStore = useSecureStore();
 
   const {
     control,
@@ -74,8 +75,16 @@ export default function SignIn() {
         );
       }
     };
+    const hasSecureStore = async () => {
+      const hasUserName = await secureStore.get("userName");
+      if(typeof hasSecureStore == undefined){
+        setIsBiometricSupported(false);
+      }
+    }
 
     checkBiometricSupport().then();
+    hasSecureStore().then();
+
   }, []);
 
   const onSubmit = async (data: any) => {
