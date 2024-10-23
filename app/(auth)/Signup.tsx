@@ -20,7 +20,7 @@ import Toast from "react-native-toast-message";
 import SmoothPinCodeInput from "@dreamwalk-os/react-native-smooth-pincode-input";
 import { useAppHook } from "@/hooks/useAppHook";
 
-export default function signUp() {
+export default function signup() {
   const { biometricAuth, enableBiometricAuth, availableBiometrics } =
     useFingerprint();
   const appLaunch = useAppHook();

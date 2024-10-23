@@ -55,7 +55,7 @@ export default function AppLayout() {
                 }}
               >
                 <Text
-                  className={`${pathname == Pages.Dashboard ? "text-white" : "text-gray-500"} font-pregular p-2 px-6`}
+                  className={`${pathname === Pages.Dashboard ? "text-white" : "text-gray-500"} font-pregular p-2 px-6`}
                 >
                   My Accounts
                 </Text>
@@ -67,7 +67,7 @@ export default function AppLayout() {
                 }}
               >
                 <Text
-                  className={`${pathname == Pages.Transactions ? "text-white" : "text-gray-500"} font-pregular p-2 px-6`}
+                  className={`${pathname === Pages.Transactions ? "text-white" : "text-gray-500"} font-pregular p-2 px-6`}
                 >
                   Transactions
                 </Text>
@@ -79,7 +79,7 @@ export default function AppLayout() {
                 }}
               >
                 <Text
-                  className={`${pathname == Pages.SOA ? "text-white" : "text-gray-500"} font-pregular p-2 px-6`}
+                  className={`${pathname === Pages.SOA ? "text-white" : "text-gray-500"} font-pregular p-2 px-6`}
                 >
                   Statement of Accounts
                 </Text>

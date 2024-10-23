@@ -83,6 +83,8 @@ export default function SignIn() {
 
     checkBiometricSupport().then();
     hasSecureStore().then();
+
+    //@ts-ignore react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = async (data: any) => {
