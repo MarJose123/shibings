@@ -58,6 +58,11 @@ export default function signUp() {
       });
       await appLaunch.setFirstLaunch(true);
       return router.replace("/sign-in");
+    }else {
+      Toast.show({
+        type: "error",
+        text1: "Something went wrong, Please try again.",
+      });
     }
   };
 
