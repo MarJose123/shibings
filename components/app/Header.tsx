@@ -35,6 +35,7 @@ export default function AppHeader() {
             <Icons.logout
               className="stroke-1 h-6 w-6 stroke-white"
               onPress={async () => {
+                console.log("asdas");
                 await secureStore.deleteAll([
                   "userEmail",
                   "userName",

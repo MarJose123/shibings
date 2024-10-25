@@ -49,7 +49,26 @@ export const useFingerprint = () => {
         return false;
       }
 
-      return await authenticateBiometric();
+      const result =  await authenticateBiometric();
+      if(result){
+        setBiometricAuth((prevState) => {
+          const updatedState = { ...prevState };
+
+          updatedState.isTouchIDEnabled = !prevState.isTouchIDEnabled;
+          Toast.show({
+            type: "success",
+            text1: `Biometric Login ${updatedState.isTouchIDEnabled ? "enabled" : "disabled"} successfully.`,
+          });
+          // Save the updated status
+          AsyncStorage.setItem(
+              "biometricAuthStatus",
+              JSON.stringify(updatedState),
+          );
+          return updatedState;
+        });
+      }
+
+      return result;
     } catch (error) {
       console.log(error);
       Toast.show({
@@ -67,22 +86,6 @@ export const useFingerprint = () => {
     });
 
     if (result.success) {
-      setBiometricAuth((prevState) => {
-        const updatedState = { ...prevState };
-
-        updatedState.isTouchIDEnabled = !prevState.isTouchIDEnabled;
-        Toast.show({
-          type: "success",
-          text1: `Touch ID ${updatedState.isTouchIDEnabled ? "enabled" : "disabled"} successfully.`,
-        });
-        // Save the updated status
-        AsyncStorage.setItem(
-          "biometricAuthStatus",
-          JSON.stringify(updatedState),
-        );
-        return updatedState;
-      });
-
       return true;
     } else {
       if (retryCount <= 0) return false;

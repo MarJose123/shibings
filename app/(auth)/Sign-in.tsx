@@ -57,6 +57,7 @@ export default function SignIn() {
       const biometricEnabled = await AsyncStorage.getItem(
         "biometricAuthStatus",
       );
+      console.log(biometricEnabled)
       if (biometricEnabled) {
         const parsedStatus = JSON.parse(biometricEnabled);
         setIsBiometricEnabled(
@@ -66,6 +67,7 @@ export default function SignIn() {
     };
     const hasSecureStore = async () => {
       const hasUserName = await secureStore.get("userName");
+      console.log("hasUserName", hasUserName, isBiometricSupported, isBiometricEnabled);
       if (hasUserName === undefined) {
         setIsBiometricSupported(false);
       }
@@ -90,7 +92,7 @@ export default function SignIn() {
     } else {
       Toast.show({
         type: "error",
-        text1: "No credentials found. Please try again.",
+        text1: "Invalid credentials. Please try again.",
       });
       setError("password", {
         type: "custom",
