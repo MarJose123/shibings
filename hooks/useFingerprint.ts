@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as LocalAuthentication from "expo-local-authentication";
 import Toast from "react-native-toast-message";
@@ -9,6 +9,7 @@ interface BiometricAuthStatus {
 }
 
 export const useFingerprint = () => {
+  const [retryCount, setRetryCount] = React.useState(3);
   const [biometricAuth, setBiometricAuth] = useState<BiometricAuthStatus>({
     isFaceIDEnabled: false,
     isTouchIDEnabled: false,
@@ -28,9 +29,7 @@ export const useFingerprint = () => {
     }
   };
 
-  const enableBiometricAuth = async (
-    biometricType: "FaceID" | "TouchID",
-  ): Promise<boolean> => {
+  const enableBiometricAuth = async (): Promise<boolean> => {
     try {
       const isBiometricAvailable = await LocalAuthentication.hasHardwareAsync();
       if (!isBiometricAvailable) {
@@ -50,43 +49,7 @@ export const useFingerprint = () => {
         return false;
       }
 
-      const result = await LocalAuthentication.authenticateAsync({
-        promptMessage: "Authenticate with biometrics",
-        fallbackLabel: "Enter password",
-      });
-
-      if (result.success) {
-        setBiometricAuth((prevState) => {
-          const updatedState = { ...prevState };
-          if (biometricType === "FaceID") {
-            updatedState.isFaceIDEnabled = !prevState.isFaceIDEnabled;
-            Toast.show({
-              type: "success",
-              text1: `Face ID ${updatedState.isFaceIDEnabled ? "enabled" : "disabled"} successfully.`,
-            });
-          } else if (biometricType === "TouchID") {
-            updatedState.isTouchIDEnabled = !prevState.isTouchIDEnabled;
-            Toast.show({
-              type: "success",
-              text1: `Touch ID ${updatedState.isTouchIDEnabled ? "enabled" : "disabled"} successfully.`,
-            });
-          }
-          // Save the updated status
-          AsyncStorage.setItem(
-            "biometricAuthStatus",
-            JSON.stringify(updatedState),
-          );
-          return updatedState;
-        });
-
-        return true;
-      } else {
-        Toast.show({
-          type: "error",
-          text1: "Authentication failed.",
-        });
-        return false;
-      }
+      return await authenticateBiometric();
     } catch (error) {
       console.log(error);
       Toast.show({
@@ -94,6 +57,51 @@ export const useFingerprint = () => {
         text1: "An error occurred while enabling biometric authentication.",
       });
       return false;
+    }
+  };
+
+  const authenticateBiometric = async () => {
+    const result = await LocalAuthentication.authenticateAsync({
+      promptMessage: "Authenticate with biometrics",
+      fallbackLabel: "Enter password",
+    });
+
+    if (result.success) {
+      setBiometricAuth((prevState) => {
+        const updatedState = { ...prevState };
+
+        updatedState.isTouchIDEnabled = !prevState.isTouchIDEnabled;
+        Toast.show({
+          type: "success",
+          text1: `Touch ID ${updatedState.isTouchIDEnabled ? "enabled" : "disabled"} successfully.`,
+        });
+        // Save the updated status
+        AsyncStorage.setItem(
+          "biometricAuthStatus",
+          JSON.stringify(updatedState),
+        );
+        return updatedState;
+      });
+
+      return true;
+    } else {
+      if (retryCount <= 0) return false;
+      setRetryCount((prevState) => prevState--);
+      switch (result.error) {
+        case "lockout":
+          Toast.show({
+            type: "error",
+            text1: "Authentication with Biometric Authentication Lockout",
+          });
+          return false;
+        case "authentication_failed" || "too_fast":
+          await enableBiometricAuth();
+          return false;
+        case "user_cancel":
+          return false;
+        default:
+          return false;
+      }
     }
   };
 
@@ -120,5 +128,6 @@ export const useFingerprint = () => {
     enableBiometricAuth,
     checkIfBiometricEnabled,
     availableBiometrics,
+    authenticateBiometric,
   };
 };
