@@ -19,6 +19,7 @@ import { useAccount } from "@/hooks/useAccount";
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
 import { Avatar } from "@kolking/react-native-avatar";
+import { useFingerprint } from "@/hooks/useFingerprint";
 
 type StoredSessionType = {
   name: string;
@@ -32,6 +33,7 @@ export default function SignIn() {
   const [sessionStored, setSessionStored] = useState<StoredSessionType>();
   const secureStore = useSecureStore();
   const account = useAccount();
+  const biometric = useFingerprint();
 
   const {
     control,
@@ -99,11 +101,8 @@ export default function SignIn() {
   };
   const onBiometricLogin = async () => {
     try {
-      const result = await LocalAuthentication.authenticateAsync({
-        promptMessage: `Login with Touch ID`,
-        fallbackLabel: "Enter password",
-      });
-      if (result.success) {
+      const result = await biometric.authenticateBiometric();
+      if (result) {
         const storedEmail = await secureStore.get("userEmail");
         const storedPassword = await secureStore.get("userPin");
         if (storedEmail && storedPassword) {
