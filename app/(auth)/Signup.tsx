@@ -52,7 +52,7 @@ export default function SignUp() {
         text1: "Account has been created successfully.",
       });
       await appLaunch.setFirstLaunch(true);
-      return router.replace("/sign-in");
+      return router.replace("/Sign-in");
     } else {
       console.error(result);
       Toast.show({
@@ -187,7 +187,7 @@ export default function SignUp() {
               <TouchableOpacity
                 activeOpacity={0.7}
                 className="items-center bg-blue-500 rounded-xl min-h-[62px] justify-center"
-                onPress={async () => await enableBiometricAuth("TouchID")}
+                onPress={async () => await enableBiometricAuth()}
               >
                 <View className="flex-row space-x-2 items-center">
                   <Ionicons name={"finger-print"} size={24} color={"white"} />
