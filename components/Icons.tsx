@@ -62,15 +62,18 @@ const notificationBell = ({ className }: { className: string }) => {
 const arrowRight = ({
   className,
   fillClassName,
+  onPress,
 }: {
   className: string;
   fillClassName?: string;
+  onPress?: (e?: any) => void;
 }) => {
   return (
     <Svg
       viewBox="0 0 20 20"
       fill={`${fillClassName ?? "none"}`}
       className={`${className}`}
+      onPress={onPress}
     >
       <Path
         fillRule="evenodd"
@@ -84,9 +87,11 @@ const arrowRight = ({
 const logout = ({
   className,
   fillClassName,
+  onPress,
 }: {
   className: string;
   fillClassName?: string;
+  onPress?: (e?: any) => void;
 }) => {
   return (
     <Svg

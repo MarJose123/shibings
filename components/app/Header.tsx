@@ -1,8 +1,13 @@
 import { Image, Text, View } from "react-native";
 import React from "react";
 import Icons from "@/components/Icons";
+import { useSecureStore } from "@/hooks/useSecureStore";
+import { useRouter } from "expo-router";
 
 export default function AppHeader() {
+  const secureStore = useSecureStore();
+  const router = useRouter();
+
   return (
     <View className="flex px-4 space-y-6">
       <View className="flex justify-between items-start flex-row mb-6">
@@ -27,7 +32,17 @@ export default function AppHeader() {
             <Icons.cogs className="stroke-1 h-6 w-6 stroke-white" />
           </View>
           <View>
-            <Icons.logout className="stroke-1 h-6 w-6 stroke-white" />
+            <Icons.logout
+              className="stroke-1 h-6 w-6 stroke-white"
+              onPress={async () => {
+                await secureStore.deleteAll([
+                  "userEmail",
+                  "userName",
+                  "userPin",
+                ]);
+                router.replace("/Sign-in");
+              }}
+            />
           </View>
         </View>
       </View>
